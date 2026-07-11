@@ -42,6 +42,37 @@ For the default `K=5` case:
 - One `D` mutant in `C` residents invades with strength `11`
 - One `C` mutant in `D` residents does not invade; its strength is `-8`
 
+## Step 3: 2-Player EWL Engine
+
+Implemented outputs:
+
+- Two-player EWL strategy family `U(theta, phi)`
+- Classical `C` and `D` as special quantum operations
+- Entangle, apply local strategies, disentangle, then measure
+- Measurement probabilities for `CC`, `CD`, `DC`, and `DD` outcomes
+- Expected payoffs from the Step 1 Prisoner's Dilemma payoff matrix
+
+The strategy matrix is:
+
+```text
+U(theta, phi) = [[exp(i phi) cos(theta/2),  sin(theta/2)],
+                 [-sin(theta/2),            exp(-i phi) cos(theta/2)]]
+```
+
+The entangler is:
+
+```text
+J = cos(gamma/2) I + i sin(gamma/2) (D tensor D)
+```
+
+Validation checks covered by tests:
+
+- When `gamma = 0`, classical C/D behavior is recovered
+- Classical `C = U(0, 0)` and `D = U(pi, 0)` are special EWL operations
+- Measurement probabilities sum to `1`
+- Classical C/D profiles match expected classical payoffs in classical limits
+- Classical C/D profiles remain deterministic under entanglement
+
 ## Run Tests
 
 ```bash
@@ -53,12 +84,22 @@ python3 -m unittest discover -s tests
 ```bash
 PYTHONPATH=src python3 examples/classical_baseline_demo.py
 PYTHONPATH=src python3 examples/k_player_baseline_demo.py
+PYTHONPATH=src python3 examples/two_player_ewl_demo.py
 ```
 
 ## Use From Python
 
 ```python
-from quantum_ess import classical_two_player_baseline, classical_k_player_baseline
+import math
+
+from quantum_ess import (
+    EWL_C,
+    EWL_D,
+    EWL_Q,
+    EWLTwoPlayerGame,
+    classical_k_player_baseline,
+    classical_two_player_baseline,
+)
 
 step_1 = classical_two_player_baseline()
 print(step_1.payoff_matrix)
@@ -69,4 +110,8 @@ step_2 = classical_k_player_baseline(k=5)
 print(step_2.payoff_table)
 print(step_2.one_defector_in_cooperators)
 print(step_2.one_cooperator_in_defectors)
+
+step_3 = EWLTwoPlayerGame(gamma=math.pi / 2)
+print(step_3.run(EWL_C, EWL_D).probabilities)
+print(step_3.run(EWL_Q, EWL_Q).expected_payoffs)
 ```
