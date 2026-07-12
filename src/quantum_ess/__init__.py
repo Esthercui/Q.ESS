@@ -29,6 +29,17 @@ from .k_player import (
     classical_k_player_baseline,
     classical_k_player_game,
 )
+from .k_player_ewl import (
+    KPlayerEWLGame,
+    KPlayerEWLResult,
+    all_k_player_classical_profiles,
+    bits_to_index,
+    index_to_bits,
+    k_player_classical_profile,
+    k_player_ewl_game,
+    k_player_ewl_pd_payoff,
+    k_player_resident_mutant_profile,
+)
 
 __all__ = [
     "Action",
@@ -43,15 +54,24 @@ __all__ = [
     "EWLResult",
     "EWLStrategy",
     "EWLTwoPlayerGame",
+    "KPlayerEWLGame",
+    "KPlayerEWLResult",
     "KPlayerInvasionResult",
     "KPlayerPayoffRow",
     "MutantESSComparison",
     "Payoff",
     "Profile",
+    "all_k_player_classical_profiles",
+    "bits_to_index",
     "classical_action_to_ewl_strategy",
     "classical_k_player_baseline",
     "classical_k_player_game",
     "classical_two_player_baseline",
+    "index_to_bits",
+    "k_player_classical_profile",
+    "k_player_ewl_game",
+    "k_player_ewl_pd_payoff",
+    "k_player_resident_mutant_profile",
     "prisoners_dilemma_game",
     "two_player_ewl_game",
 ]
