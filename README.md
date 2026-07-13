@@ -73,7 +73,7 @@ Validation checks covered by tests:
 - Classical C/D profiles match expected classical payoffs in classical limits
 - Classical C/D profiles remain deterministic under entanglement
 
-## Step 4: K-Player EWL Engine
+## Step 4: K-Player EWL Engine and Strategy Grid
 
 Implemented outputs:
 
@@ -82,8 +82,31 @@ Implemented outputs:
 - K-player measurement probabilities over all bitstring outcomes
 - Resident-mutant profile helpers with arbitrary mutant indices
 - Average resident and mutant payoff calculation for later invasion logic
+- Finite EWL strategy grids over `theta` and `phi`
+- Pure Nash equilibrium search on a K-player grid, including `K=5`
+- Optional multiprocessing for large grid searches
 
 The K-player EWL engine reuses the Step 3 strategy family `U(theta, phi)` and extends the entangler to a full K-player state vector. For odd `K`, the generator is phase-adjusted so it remains Hermitian and unitary-safe. Classical C/D profiles still recover deterministic classical outcomes after disentangling.
+
+The grid search treats a pure quantum strategy as one point `U(theta, phi)` on a finite grid. The default research-scale grid uses:
+
+```text
+theta_count = 11
+phi_count = 6
+strategies = 66
+```
+
+For `K=5`, the ordered profile count is large:
+
+```text
+66^5 = 1,252,332,576
+```
+
+The Nash search therefore uses strategy-count profiles for symmetric games. This represents equilibria up to player permutation and reduces the `K=5` resident-profile count to:
+
+```text
+C(66 + 5 - 1, 5) = C(70, 5) = 12,103,014
+```
 
 Validation checks covered by tests:
 
@@ -93,6 +116,7 @@ Validation checks covered by tests:
 - Classical C/D profiles recover classical outcomes under entanglement
 - Arbitrary quantum profiles return one expected payoff per player
 - Resident-mutant profile helpers return grouped average payoffs
+- Small-grid Nash search recovers all-defection for classical `K=5`
 
 ## Run Tests
 
@@ -107,6 +131,20 @@ PYTHONPATH=src python3 examples/classical_baseline_demo.py
 PYTHONPATH=src python3 examples/k_player_baseline_demo.py
 PYTHONPATH=src python3 examples/two_player_ewl_demo.py
 PYTHONPATH=src python3 examples/k_player_ewl_demo.py
+PYTHONPATH=src python3 examples/k_player_ewl_grid_search_demo.py
+```
+
+For a larger `K=5` grid search on a 25-core machine:
+
+```bash
+PYTHONPATH=src python3 examples/k_player_ewl_grid_search_demo.py \
+  --k 5 \
+  --gamma 1.5707963267948966 \
+  --theta-count 11 \
+  --phi-count 6 \
+  --workers 25 \
+  --chunksize 256 \
+  --max-results 100
 ```
 
 ## Use From Python
@@ -122,6 +160,8 @@ from quantum_ess import (
     KPlayerEWLGame,
     classical_k_player_baseline,
     classical_two_player_baseline,
+    ewl_strategy_grid,
+    find_pure_nash_equilibria_on_grid,
     k_player_resident_mutant_profile,
 )
 
@@ -149,4 +189,13 @@ profile = k_player_resident_mutant_profile(
 result = step_4.run(profile)
 print(result.probabilities)
 print(result.expected_payoffs)
+
+grid = ewl_strategy_grid(theta_count=3, phi_count=2)
+nash = find_pure_nash_equilibria_on_grid(
+    k=5,
+    gamma=math.pi / 2,
+    strategies=grid.strategies,
+    workers=1,
+)
+print(len(nash.equilibria))
 ```
