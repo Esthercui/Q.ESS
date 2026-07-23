@@ -83,12 +83,16 @@ Implemented outputs:
 - Resident-mutant profile helpers with arbitrary mutant indices
 - Average resident and mutant payoff calculation for later invasion logic
 - Finite EWL strategy grids over `theta` and `phi`
-- Pure Nash equilibrium search on a K-player grid, including `K=5`
+- Exact pure Nash equilibrium search on a K-player grid, including `K=5`
+- One result row for every ordered Nash profile
+- Direct player-by-player verification against every unilateral grid deviation
+- Per-player angles, expected payoffs, best responses, and maximum deviation gains
+- Both total pairwise-summed payoff and average payoff per opponent
 - Optional multiprocessing for large grid searches
 
 The K-player EWL engine reuses the Step 3 strategy family `U(theta, phi)` and extends the entangler to a full K-player state vector. For odd `K`, the generator is phase-adjusted so it remains Hermitian and unitary-safe. Classical C/D profiles still recover deterministic classical outcomes after disentangling.
 
-The grid search treats a pure quantum strategy as one point `U(theta, phi)` on a finite grid. The default research-scale grid uses:
+One grid point `U(theta, phi)` is one pure strategy available to one player. An ordered tuple of `K` grid points is a strategy profile. The default research grid matches the earlier notebook:
 
 ```text
 theta_count = 11
@@ -96,17 +100,34 @@ phi_count = 6
 strategies = 66
 ```
 
-For `K=5`, the ordered profile count is large:
+Thus every player has 66 possible pure strategies. For `K=5`, the finite game contains:
 
 ```text
 66^5 = 1,252,332,576
 ```
 
-The Nash search therefore uses strategy-count profiles for symmetric games. This represents equilibria up to player permutation and reduces the `K=5` resident-profile count to:
+The search is exact: a profile is Nash only if no player can improve by changing alone to any of the 66 grid strategies. Internally, the default game is symmetric, so identical opponent multisets share one best-response calculation. This reduces repeated work to:
 
 ```text
 C(66 + 5 - 1, 5) = C(70, 5) = 12,103,014
 ```
+
+This symmetry calculation does not remove strategies, profiles, or deviations
+from the finite game. Confirmed equilibria are expanded back into every distinct
+ordered player profile, and every returned profile receives an independent
+unilateral-deviation audit.
+
+The engine's primary payoff is the sum over all pairwise interactions, matching
+the Step 2 classical K-player baseline. Results also report that total divided
+by `K - 1` as the average payoff per opponent. For example, four-player mutual
+cooperation is total payoff `9` and average payoff `3`; these are the same
+payoff convention at different scales, and the scaling does not change Nash
+equilibrium membership.
+
+The grid resolution is configurable. For example, `21` theta values and `11`
+phi values give 231 strategies per player. Grid refinement should be reported
+in the research because a finite-grid equilibrium can change when additional
+strategies become available.
 
 Validation checks covered by tests:
 
@@ -117,6 +138,8 @@ Validation checks covered by tests:
 - Arbitrary quantum profiles return one expected payoff per player
 - Resident-mutant profile helpers return grouped average payoffs
 - Small-grid Nash search recovers all-defection for classical `K=5`
+- The profile `(D,C,C,C,C)` returns `(20,9,9,9,9)` but fails the Nash audit
+- Every returned equilibrium passes a direct all-players/all-deviations audit
 
 ## Run Tests
 
@@ -144,7 +167,18 @@ PYTHONPATH=src python3 examples/k_player_ewl_grid_search_demo.py \
   --phi-count 6 \
   --workers 25 \
   --chunksize 256 \
-  --max-results 100
+  --output k5_ewl_nash_results.json
+```
+
+To refine the grid beyond the earlier notebook, change the counts explicitly:
+
+```bash
+PYTHONPATH=src python3 examples/k_player_ewl_grid_search_demo.py \
+  --k 5 \
+  --theta-count 21 \
+  --phi-count 11 \
+  --workers 25 \
+  --output k5_ewl_nash_dense_results.json
 ```
 
 ## Use From Python
@@ -190,12 +224,17 @@ result = step_4.run(profile)
 print(result.probabilities)
 print(result.expected_payoffs)
 
-grid = ewl_strategy_grid(theta_count=3, phi_count=2)
+grid = ewl_strategy_grid(theta_count=11, phi_count=6)
 nash = find_pure_nash_equilibria_on_grid(
     k=5,
     gamma=math.pi / 2,
     strategies=grid.strategies,
     workers=1,
 )
-print(len(nash.equilibria))
+print(nash.ordered_profile_count)
+for equilibrium in nash.equilibria:
+    print(equilibrium.strategy_indices)
+    print(equilibrium.angles())
+    print(equilibrium.payoffs)
+    print(equilibrium.unilateral_gains)
 ```
