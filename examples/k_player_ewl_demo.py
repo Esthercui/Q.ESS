@@ -19,6 +19,7 @@ def print_result(label, result):
 
 
 def main():
+    print("Payoff examples only; this script does not search for Nash equilibria.")
     game = KPlayerEWLGame(k=5, gamma=math.pi / 4.0)
 
     profiles = {
