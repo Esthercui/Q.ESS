@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
-from itertools import product
+from itertools import permutations, product
 from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Tuple
 
 from .ewl import EWLStrategy
@@ -17,6 +17,7 @@ BestResponseTable = Dict[SparseCountProfile, Tuple[float, Tuple[int, ...]]]
 _WORKER_K: Optional[int] = None
 _WORKER_GAMMA: Optional[float] = None
 _WORKER_STRATEGIES: Optional[Tuple[EWLStrategy, ...]] = None
+_WORKER_TOLERANCE: float = 1e-8
 
 
 @dataclass(frozen=True)
@@ -40,21 +41,55 @@ class EWLStrategyGrid:
 
 @dataclass(frozen=True)
 class KPlayerNashEquilibrium:
-    """Pure K-player Nash equilibrium found on a finite strategy grid.
-
-    The equilibrium is represented canonically by sorted strategy indices. Any
-    permutation of those indices is equivalent in a symmetric K-player game.
-    """
+    """One ordered pure-strategy Nash equilibrium on a finite EWL grid."""
 
     strategy_indices: Tuple[int, ...]
     strategy_counts: SparseCountProfile
     strategies: Tuple[EWLStrategy, ...]
     payoffs: Tuple[float, ...]
-    representative_payoff: float
+    best_response_indices: Tuple[Tuple[int, ...], ...]
+    unilateral_gains: Tuple[float, ...]
+    probability_sum: float
+    most_likely_outcome: Tuple[int, ...]
+    most_likely_probability: float
 
     @property
     def is_symmetric(self) -> bool:
         return len(self.strategy_counts) == 1
+
+    @property
+    def is_nash(self) -> bool:
+        return True
+
+    @property
+    def average_pairwise_payoffs(self) -> Tuple[float, ...]:
+        """Return each total payoff divided by the number of opponents."""
+        opponent_count = len(self.strategies) - 1
+        return tuple(payoff / opponent_count for payoff in self.payoffs)
+
+    def angles(self) -> Tuple[Tuple[float, float], ...]:
+        return tuple((strategy.theta, strategy.phi) for strategy in self.strategies)
+
+
+@dataclass(frozen=True)
+class KPlayerProfileEvaluation:
+    """Nash-deviation audit for one ordered K-player strategy profile."""
+
+    strategy_indices: Tuple[int, ...]
+    strategies: Tuple[EWLStrategy, ...]
+    payoffs: Tuple[float, ...]
+    best_response_indices: Tuple[Tuple[int, ...], ...]
+    unilateral_gains: Tuple[float, ...]
+    is_nash: bool
+    probability_sum: float
+    most_likely_outcome: Tuple[int, ...]
+    most_likely_probability: float
+
+    @property
+    def average_pairwise_payoffs(self) -> Tuple[float, ...]:
+        """Return each total payoff divided by the number of opponents."""
+        opponent_count = len(self.strategies) - 1
+        return tuple(payoff / opponent_count for payoff in self.payoffs)
 
     def angles(self) -> Tuple[Tuple[float, float], ...]:
         return tuple((strategy.theta, strategy.phi) for strategy in self.strategies)
@@ -62,11 +97,12 @@ class KPlayerNashEquilibrium:
 
 @dataclass(frozen=True)
 class KPlayerNashSearchResult:
-    """Result of a finite-grid pure Nash search."""
+    """Result of an exact finite-grid pure Nash search."""
 
     k: int
     gamma: float
     strategy_count: int
+    ordered_profile_count: int
     opponent_context_count: int
     resident_count_profile_count: int
     equilibria: Tuple[KPlayerNashEquilibrium, ...]
@@ -106,11 +142,74 @@ def ewl_strategy_grid(
     )
 
 
+def ordered_profile_count(strategy_count: int, k: int) -> int:
+    """Return the number N^K of ordered profiles in the finite game."""
+    _validate_strategy_count(strategy_count)
+    _validate_k(k)
+    return strategy_count ** k
+
+
 def iter_ordered_profile_indices(strategy_count: int, k: int) -> Iterator[Tuple[int, ...]]:
     """Yield every ordered K-player grid profile as strategy indices."""
     _validate_strategy_count(strategy_count)
     _validate_k(k)
     yield from product(range(strategy_count), repeat=k)
+
+
+def evaluate_profile_on_grid(
+    k: int,
+    gamma: float,
+    strategies: Sequence[EWLStrategy],
+    strategy_indices: Sequence[int],
+    tolerance: float = 1e-8,
+) -> KPlayerProfileEvaluation:
+    """Evaluate one ordered profile and every unilateral grid deviation.
+
+    A profile is Nash exactly when no player can improve its own expected
+    payoff by more than ``tolerance`` while all other players stay fixed.
+    """
+    _validate_k(k)
+    _validate_search_inputs(gamma, strategies, tolerance, workers=1, chunksize=1)
+    strategy_tuple = tuple(strategies)
+    indices = tuple(strategy_indices)
+    if len(indices) != k:
+        raise ValueError(f"expected {k} strategy indices, got {len(indices)}")
+    if any(index < 0 or index >= len(strategy_tuple) for index in indices):
+        raise ValueError(f"strategy index outside grid: {indices!r}")
+
+    game = KPlayerEWLGame(k=k, gamma=gamma)
+    profile = tuple(strategy_tuple[index] for index in indices)
+    result = game.run(profile)
+    best_response_rows: List[Tuple[int, ...]] = []
+    gains: List[float] = []
+
+    for player in range(k):
+        best_value = -math.inf
+        best_indices: List[int] = []
+        for candidate_index, candidate in enumerate(strategy_tuple):
+            deviated_profile = list(profile)
+            deviated_profile[player] = candidate
+            candidate_payoff = game.expected_payoffs(deviated_profile)[player]
+            if candidate_payoff > best_value + tolerance:
+                best_value = candidate_payoff
+                best_indices = [candidate_index]
+            elif abs(candidate_payoff - best_value) <= tolerance:
+                best_indices.append(candidate_index)
+        best_response_rows.append(tuple(best_indices))
+        gains.append(float(best_value - result.expected_payoffs[player]))
+
+    outcome, probability = result.most_likely_outcome()
+    return KPlayerProfileEvaluation(
+        strategy_indices=indices,
+        strategies=profile,
+        payoffs=result.expected_payoffs,
+        best_response_indices=tuple(best_response_rows),
+        unilateral_gains=tuple(gains),
+        is_nash=all(gain <= tolerance for gain in gains),
+        probability_sum=result.probability_sum,
+        most_likely_outcome=outcome,
+        most_likely_probability=probability,
+    )
 
 
 def iter_sparse_count_profiles(strategy_count: int, total: int) -> Iterator[SparseCountProfile]:
@@ -220,11 +319,13 @@ def find_pure_nash_equilibria_on_grid(
     chunksize: int = 128,
     max_results: Optional[int] = None,
 ) -> KPlayerNashSearchResult:
-    """Find pure Nash equilibria on a finite K-player EWL strategy grid.
+    """Find every ordered pure Nash equilibrium on a finite EWL strategy grid.
 
-    The search returns equilibria up to player permutation. For example, a count
-    profile with two copies of strategy A and three copies of strategy B
-    represents every ordered profile containing that same multiset of choices.
+    The finite game contains ``len(strategies) ** k`` ordered profiles. The
+    default K-player EWL Prisoner's Dilemma is symmetric, so the search can
+    compute best responses once per opponent strategy multiset without changing
+    the game or omitting any possible deviation. Every ordered permutation of a
+    confirmed equilibrium is returned separately.
     """
     _validate_k(k)
     _validate_search_inputs(gamma, strategies, tolerance, workers, chunksize)
@@ -241,37 +342,61 @@ def find_pure_nash_equilibria_on_grid(
         chunksize=chunksize,
     )
 
-    game = KPlayerEWLGame(k=k, gamma=gamma)
     equilibria: List[KPlayerNashEquilibrium] = []
     truncated = False
     for counts in iter_sparse_count_profiles(len(strategy_tuple), k):
         if _count_profile_is_nash(counts, best_response_table):
-            indices = sparse_counts_to_indices(counts)
-            profile = tuple(strategy_tuple[index] for index in indices)
-            payoffs = game.expected_payoffs(profile)
-            equilibria.append(
-                KPlayerNashEquilibrium(
+            canonical_indices = sparse_counts_to_indices(counts)
+            for indices in _unique_ordered_permutations(canonical_indices):
+                audit = evaluate_profile_on_grid(
+                    k=k,
+                    gamma=gamma,
+                    strategies=strategy_tuple,
                     strategy_indices=indices,
-                    strategy_counts=counts,
-                    strategies=profile,
-                    payoffs=payoffs,
-                    representative_payoff=payoffs[0],
+                    tolerance=tolerance,
                 )
-            )
-            if max_results is not None and len(equilibria) >= max_results:
-                truncated = True
+                if not audit.is_nash:
+                    raise RuntimeError(
+                        "symmetry-reduced search disagreed with direct deviation audit "
+                        f"for profile {indices!r}"
+                    )
+                equilibria.append(
+                    KPlayerNashEquilibrium(
+                        strategy_indices=indices,
+                        strategy_counts=counts,
+                        strategies=audit.strategies,
+                        payoffs=audit.payoffs,
+                        best_response_indices=audit.best_response_indices,
+                        unilateral_gains=audit.unilateral_gains,
+                        probability_sum=audit.probability_sum,
+                        most_likely_outcome=audit.most_likely_outcome,
+                        most_likely_probability=audit.most_likely_probability,
+                    )
+                )
+                if max_results is not None and len(equilibria) >= max_results:
+                    truncated = True
+                    break
+            if truncated:
                 break
 
     return KPlayerNashSearchResult(
         k=k,
         gamma=gamma,
         strategy_count=len(strategy_tuple),
+        ordered_profile_count=ordered_profile_count(len(strategy_tuple), k),
         opponent_context_count=sparse_count_profile_count(len(strategy_tuple), k - 1),
         resident_count_profile_count=sparse_count_profile_count(len(strategy_tuple), k),
         equilibria=tuple(equilibria),
         tolerance=tolerance,
         truncated=truncated,
     )
+
+
+def _unique_ordered_permutations(
+    indices: Tuple[int, ...],
+) -> Tuple[Tuple[int, ...], ...]:
+    """Return each distinct player ordering of a canonical strategy multiset."""
+    return tuple(sorted(set(permutations(indices))))
 
 
 def _best_response_for_opponents(
