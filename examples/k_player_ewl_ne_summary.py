@@ -14,15 +14,15 @@ def parse_args():
         default=math.pi / 2.0,
         help="entanglement value in radians",
     )
-    parser.add_argument("--theta-count", type=int, default=3)
-    parser.add_argument("--phi-count", type=int, default=2)
+    parser.add_argument("--theta-count", type=int, default=11)
+    parser.add_argument("--phi-count", type=int, default=6)
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--chunksize", type=int, default=128)
     parser.add_argument(
         "--max-results-per-k",
         type=int,
-        default=20,
-        help="maximum NE rows printed for each K",
+        default=None,
+        help="optional maximum NE rows printed for each K",
     )
     return parser.parse_args()
 
@@ -41,9 +41,10 @@ def format_payoffs(equilibrium):
 def print_k_summary(k, result):
     print(f"K = {k}")
     print("  strategy grid size:", result.strategy_count)
+    print("  ordered profiles in finite game:", result.ordered_profile_count)
     print("  opponent contexts checked:", result.opponent_context_count)
-    print("  resident count profiles checked:", result.resident_count_profile_count)
-    print("  NE found:", len(result.equilibria))
+    print("  symmetry-reduced profile classes checked:", result.resident_count_profile_count)
+    print("  ordered NE profiles found:", len(result.equilibria))
     print("  truncated:", result.truncated)
 
     if not result.equilibria:
@@ -53,11 +54,22 @@ def print_k_summary(k, result):
 
     for index, equilibrium in enumerate(result.equilibria, start=1):
         print(f"  NE #{index}")
-        print("    strategy indices:", equilibrium.strategy_indices)
-        print("    strategy counts:", equilibrium.strategy_counts)
+        print("    Nash equilibrium:", equilibrium.is_nash)
+        print("    ordered strategy profile:", equilibrium.strategy_indices)
         print("    symmetric:", equilibrium.is_symmetric)
         print("    angles theta_phi:", format_angles(equilibrium))
-        print("    payoffs:", format_payoffs(equilibrium))
+        print("    total payoffs:", format_payoffs(equilibrium))
+        print(
+            "    average payoffs per opponent:",
+            tuple(
+                round(value, 6)
+                for value in equilibrium.average_pairwise_payoffs
+            ),
+        )
+        print(
+            "    maximum unilateral gains:",
+            tuple(round(value, 12) for value in equilibrium.unilateral_gains),
+        )
     print()
 
 
