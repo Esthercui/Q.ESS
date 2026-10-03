@@ -124,7 +124,7 @@ class ResolutionTests(unittest.TestCase):
             result=batch_compositions(name,points)
             np.testing.assert_allclose(result['a'][:,0,0],exact_a0(name,points[:,0],points[:,1]),atol=1e-12,rtol=0)
             for i in range(len(points)):
-                np.testing.assert_allclose(result['a'][i,0],bernstein_to_power_coefficients(result['b'][i,0]),atol=1e-12,rtol=0)
+                np.testing.assert_allclose(result['a'][i,0],bernstein_to_power_coefficients(result['b'][i,0].tolist()),atol=1e-12,rtol=0)
 
 
 if __name__=='__main__':unittest.main()
