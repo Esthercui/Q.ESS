@@ -167,6 +167,8 @@ def precision_checks(optimizers, summaries):
 
 def run(out):
     started=time.perf_counter();out.mkdir(parents=True,exist_ok=True)
+    run_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+    run_dirty=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
     convergence=[];raw=[];summary=[]
     for name in RESIDENTS:
         best=None
@@ -219,8 +221,8 @@ def run(out):
               'distinct_neutral_set':'empty','equality_evidence':'exact polynomial remainders zero; independent 80-digit tensor evaluations'}))
     metadata=dict(schema_version=1,utc_finished=datetime.now(timezone.utc).isoformat(),
         command='PYTHONPATH=src studio-python scripts/run_step6.py --output-dir '+str(out),
-        git_head_at_run=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
-        dirty_tracked_files_at_start=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines(),
+        git_head_at_run=run_head,
+        dirty_tracked_files_at_start=run_dirty,
         step5_merge_commit='655c86574b6c989f25153c7ad500b5b15d6e8316',step5_validated_commit='b174ec298187655e8d2eb143fe5509d7fcbc60d8',
         baseline_commit='5827d9aaf631f67a02713eb8643609a7730707d2',python=sys.version,executable=sys.executable,
         platform=platform.platform(),hardware=subprocess.check_output(['sysctl','-n','machdep.cpu.brand_string'],text=True).strip(),cpu_count=os.cpu_count(),
@@ -231,7 +233,7 @@ def run(out):
         dependency_versions={p:importlib.metadata.version(p) for p in ['numpy','scipy','sympy','mpmath','matplotlib','pandas','nbformat','nbclient']},
         model='unchanged restricted two-parameter EWL; gamma=pi/2; global parity-adjusted entangler; pairwise summed PD; infinite well-mixed population',
         certification='exact symbolic identities and analytic sign proof; optimizers/grids are cross-checks, not the proof',
-        future_steps_executed=[],source_sha256={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),Path('src/quantum_ess/ewl_resolution.py'),Path('pyproject.toml')]})
+        future_steps_executed=[],source_sha256={str(p.relative_to(Path.cwd()) if p.is_absolute() else p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),Path('src/quantum_ess/ewl_resolution.py'),Path('pyproject.toml')]})
     dump(out/'run_metadata.json',metadata)
     dump(out/'data_manifest.json',{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in out.iterdir() if p.is_file() and p.name!='data_manifest.json'})
     print(json.dumps({'runtime_seconds':metadata['runtime_seconds'],'mutant_rows':len(raw),'optimizer_runs':len(optimizers)},indent=2))

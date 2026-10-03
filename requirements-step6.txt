@@ -1,4 +1,4 @@
-# Exact versions used on Python 3.12.4 / Apple Silicon; see run metadata.
+# Exact versions used on Python 3.12.14 / Apple Silicon; see run metadata.
 numpy==2.5.3
 scipy==1.18.1
 sympy==1.14.0
