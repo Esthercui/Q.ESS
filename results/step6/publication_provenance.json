@@ -1,0 +1,52 @@
+{
+  "publication_method": "Authenticated GitHub app Git database API; local HTTPS/SSH Git credentials unavailable",
+  "verification": "Every uploaded blob and each of the seven published commit trees matches the corresponding local Git SHA exactly. Commit SHAs differ because GitHub assigns publication identity and timestamps.",
+  "original_local_head": "c2dd4e611637e1653c527e1b757888bb1a12edbb",
+  "published_artifact_commit": "5fe92968fb05defa765beb569295fe81de6628d0",
+  "experiment_commit_local": "447373ff87c6bbec8bdb28dc6c43f8e0d37b9286",
+  "experiment_commit_published": "a2db416b12d43e20163d2af98c258ffd905bb037",
+  "commit_mapping": [
+    {
+      "local_commit": "1c2ecb56fc49c0bdddc63c375953f050b021bf25",
+      "published_commit": "ccd5721935a672b5ccc7b30d85548f62ca1852ac",
+      "identical_tree": "7e13233ee70dd9eaebca0d65598a7d957016821c",
+      "message": "Derive restricted EWL coefficient identities and boundary ESS certificates"
+    },
+    {
+      "local_commit": "98706215a4025f3fedf2ff5029efde35d753e141",
+      "published_commit": "92a81105e778a9f71001b519aa90605edb3897ee",
+      "identical_tree": "b9565b6222bd36c0d939ef2580f807c1c6f338e1",
+      "message": "Add reproducible convergence, lexicographic search, and precision experiment"
+    },
+    {
+      "local_commit": "3567fdd2679b9e5da527dd2a8541547fa47b03b0",
+      "published_commit": "fcfbc81ee76267a74fd360f0d59c1c9b3a7a46c2",
+      "identical_tree": "4687f0851833abe6118d94cbb2e7dc269a7fd3fc",
+      "message": "Validate Step 6 provenance and recompute strongest numerical candidates at 80 digits"
+    },
+    {
+      "local_commit": "2499858b30b021e9f75b46bb81f2d8448824262a",
+      "published_commit": "f74398fde34341005e00a10a17027f8e7abd4e21",
+      "identical_tree": "6a3736f6334b927929cd24ed300507593cb75ef6",
+      "message": "Document global sign proof and make experiment provenance portable"
+    },
+    {
+      "local_commit": "d613cab5865d33ee635ebdbf6c507cbc363b118b",
+      "published_commit": "aea5cdc95a0d0e0249938cccb564630b67762531",
+      "identical_tree": "40127ccce7f311f9c60e58045713a5519e523175",
+      "message": "Add inspectable report, plots, and executed notebook pipeline"
+    },
+    {
+      "local_commit": "447373ff87c6bbec8bdb28dc6c43f8e0d37b9286",
+      "published_commit": "a2db416b12d43e20163d2af98c258ffd905bb037",
+      "identical_tree": "7cce504e17c0394d71142677a8f11f9cc748c640",
+      "message": "Cross-check all 880 prior-grid mutants and distinguish literal coordinate collapse"
+    },
+    {
+      "local_commit": "c2dd4e611637e1653c527e1b757888bb1a12edbb",
+      "published_commit": "5fe92968fb05defa765beb569295fe81de6628d0",
+      "identical_tree": "bbec64e2761df8baca2c4af2fb6646ce7670d251",
+      "message": "Save certified Step 6 results, raw data, precision checks, and research handoff"
+    }
+  ]
+}

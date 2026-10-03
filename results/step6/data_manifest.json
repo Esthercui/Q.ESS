@@ -1,0 +1,12 @@
+{
+  "mutant_coefficients.csv.gz": "c8fc0a58ea860551b668175b141b964f80d0d0c88d9d4041cac9dd0792a0c2e0",
+  "grid_convergence.csv": "6a54337073b94e27746e774f3e8434858caeb81952fef04e13c8205fa11e62ed",
+  "resident_summary.csv": "3b0c43254edb62eaba16d262f8aefe8737f23c47d68c5d5a86142b4ceb61d539",
+  "coefficient_optimizer_runs.csv": "a98ab5130a17dd451fd1685d1cb56a1990d3771f95eb200a2bd787ac0a6fcbef",
+  "certification_summary.json": "52091c316dd4d3edb81935ae6d1e5a805b6a8d933dc2b6f9aaaae46510d509ad",
+  "symbolic_coefficients.json": "d634ed27294a32b2d9eaa35d3e6cf89ee28414933eeba9326eebd63a8b88050e",
+  "precision_validation.csv": "dedccaa8371038651de048a7f687ffabb4268580b67a65f9680a275bd669e209",
+  "local_derivative_analysis.json": "1381ae2c7a0b4a371540d026f409a9adf7e0854e4e6bade86418682f85c3f8a8",
+  "neutral_sets.json": "f91c99287594c80bcd3352639342a364de9c14c6cbcd030afa8b918e40defb4b",
+  "run_metadata.json": "14035a1d23be8b71434da7ee30bf25f80ca0da134afb4c9cd20a31702ac1d6d1"
+}

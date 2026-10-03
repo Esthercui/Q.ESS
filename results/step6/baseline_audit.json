@@ -1,0 +1,51 @@
+{
+  "step5": {
+    "rows": 5487,
+    "coefficient_error": 0.0,
+    "frequency_error": 0.0,
+    "six_pairs_engine_error": 3.552713678800501e-14,
+    "statuses": [
+      "neutral_or_weak_candidate",
+      "not_ESS",
+      "neutral_or_weak_candidate",
+      "neutral_or_weak_candidate",
+      "neutral_or_weak_candidate",
+      "not_ESS"
+    ],
+    "source_sha256": {
+      "resident_summary.csv": "77d35f91e79520a76db169b70beee5d76ff00006fdf412942035feb07007e134",
+      "continuous_optimizer_runs.csv": "742b702b92f9b89c64931ef1e38a385775b0214239ed6063aaeba1514aeb6f77",
+      "resident_mutant_pair_results.csv.gz": "32c2c751696ef9efb65fc210749001745341a8cea4491ad8456f9141477146c0",
+      "landscape_points.csv": "0d60b6eb452b734b20bd5fa3d7ccf8fe281a47e47ea58a8a5451ab63d1dbd45d",
+      "run_metadata.json": "71cbf557e64c77eeb12d001a9ea3a18e5ed86ded462d34776bb7e0edaea4004f",
+      "symmetric_nash_candidates.csv": "84fcc269ac34f015130911037273ce903a2e7dc3307522aa61aa7c3fa9fe3d16",
+      "README.md": "ad6ce7489545f9ce18573d50667c21d229854cf5e7c3dcc2a61e83cd21fe40e5",
+      "complete_results.json.gz": "4a4820bcc0983e6bcb5448d41b387000feb6f0584c5f225cd4757dbfb4d3a1d4"
+    }
+  },
+  "step5_macmini_20260828": {
+    "rows": 5491,
+    "coefficient_error": 0.0,
+    "frequency_error": 0.0,
+    "six_pairs_engine_error": 3.552713678800501e-14,
+    "statuses": [
+      "neutral_or_weak_candidate",
+      "not_ESS",
+      "neutral_or_weak_candidate",
+      "neutral_or_weak_candidate",
+      "neutral_or_weak_candidate",
+      "not_ESS"
+    ],
+    "source_sha256": {
+      "resident_summary.csv": "f67f84fb6de02807719b5d14c55294f9691f2ccb1565b667358c24ab91d559a9",
+      "continuous_optimizer_runs.csv": "0e92228e3b362db232cfedd3d79589fde051a8f152fd920e14686ade6b11380f",
+      "resident_mutant_pair_results.csv.gz": "8810728342dd9acaff7ad2b329aa74d693c0c9e18fb44bf47df6c7c714890b08",
+      "landscape_points.csv": "0d60b6eb452b734b20bd5fa3d7ccf8fe281a47e47ea58a8a5451ab63d1dbd45d",
+      "run_metadata.json": "a081881c11ddae3db13a8093edd2bb435b9c2769ae04bc0a43a330fc69804016",
+      "symmetric_nash_candidates.csv": "84fcc269ac34f015130911037273ce903a2e7dc3307522aa61aa7c3fa9fe3d16",
+      "README.md": "ad6ce7489545f9ce18573d50667c21d229854cf5e7c3dcc2a61e83cd21fe40e5",
+      "step5_resident_mutant_invasion.ipynb": "1859bcc036e6974696e83d85cd93ef26563cdb82b8cf76e72e314d4703675ff9",
+      "complete_results.json.gz": "9afc422fe59e2cb92e3f64d051bab8350e70fa9e906128da1bdfa8f7c6d2a274"
+    }
+  }
+}

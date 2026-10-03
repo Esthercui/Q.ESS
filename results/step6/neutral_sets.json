@@ -1,0 +1,22 @@
+{
+  "K2_Q": {
+    "Z0_including_self": "{Q}",
+    "distinct_neutral_set": "empty"
+  },
+  "K4_Q": {
+    "Z0_including_self": "{Q}",
+    "distinct_neutral_set": "empty"
+  },
+  "K5_A": {
+    "Z0_including_self": "{(0,2*pi/5)}",
+    "distinct_neutral_set": "empty"
+  },
+  "K4_B": {
+    "Z0_including_self": "{theta=0,0<=phi<=pi/2} union {phi=pi/2,0<=theta<=pi}; theta=pi aliases canonical D",
+    "a1_theta0": "-3/4",
+    "a1_phi_pi2": "-3/4*cos(theta)^2",
+    "Z1_including_self": "{B}",
+    "distinct_neutral_set": "empty",
+    "equality_evidence": "exact polynomial remainders zero; independent 80-digit tensor evaluations"
+  }
+}
