@@ -1,0 +1,17 @@
+{
+  "validation": "passed",
+  "mutant_rows": 17360,
+  "grid_summaries": 12,
+  "reconstruction_error": 1.4210854715202004e-14,
+  "maximum_errors": {
+    "focal_position_spread": 2.4868995751603507e-14,
+    "placement_spread": 1.2434497875801753e-14,
+    "probability_error": 1.6653345369377348e-15,
+    "reconstruction_error": 7.105427357601002e-15
+  },
+  "optimizer_runs": 84,
+  "global_converged": 52,
+  "local_failed": 1,
+  "high_precision_probes": 26,
+  "exact_identities": 6
+}

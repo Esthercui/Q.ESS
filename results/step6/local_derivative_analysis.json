@@ -1,0 +1,865 @@
+{
+  "K2_Q": {
+    "coefficients": [
+      {
+        "order": 0,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "-3/2",
+            "0"
+          ],
+          [
+            "0",
+            "-4"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            -1.5,
+            0.0
+          ],
+          [
+            0.0,
+            -4.0
+          ]
+        ],
+        "eigenvalues": [
+          "-3/2",
+          "-4"
+        ]
+      },
+      {
+        "order": 1,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "-8"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -8.0
+          ]
+        ],
+        "eigenvalues": [
+          "0",
+          "-8"
+        ]
+      }
+    ],
+    "feasible_cone": "dtheta>=0,dphi<=0",
+    "radius": 0.1,
+    "eigendirections": "coordinate axes; repeated zero eigenvalues allow any basis",
+    "a0_taylor": "-alpha/4*dtheta^2-beta*dphi^2+alpha/48*dtheta^4+beta/4*dtheta^2*dphi^2+beta/3*dphi^4+O(||d||^6)",
+    "alpha": 3,
+    "beta": 2,
+    "null_direction_resolution": "negative definite a0 Hessian on all nonzero feasible directions",
+    "independent_check": {
+      "digits": 80,
+      "step": "1e-12",
+      "method": "real centered finite differences of independent dense tensor-matrix payoffs",
+      "analytic_extension_for_derivatives_only": true,
+      "coefficients": [
+        {
+          "order": 0,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "-1.499999999999999999999999875",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-3.999999999999999999999998666666666666667"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 0.0
+        },
+        {
+          "order": 1,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "-1.24999999999999999999999979166659791952e-25",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-7.999999999999999999999981333333333333333"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 1.25e-25
+        }
+      ]
+    }
+  },
+  "K4_Q": {
+    "coefficients": [
+      {
+        "order": 0,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "-9/2",
+            "0"
+          ],
+          [
+            "0",
+            "-12"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            -4.5,
+            0.0
+          ],
+          [
+            0.0,
+            -12.0
+          ]
+        ],
+        "eigenvalues": [
+          "-9/2",
+          "-12"
+        ]
+      },
+      {
+        "order": 1,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "-72"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -72.0
+          ]
+        ],
+        "eigenvalues": [
+          "0",
+          "-72"
+        ]
+      },
+      {
+        "order": 2,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      },
+      {
+        "order": 3,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      }
+    ],
+    "feasible_cone": "dtheta>=0,dphi<=0",
+    "radius": 0.1,
+    "eigendirections": "coordinate axes; repeated zero eigenvalues allow any basis",
+    "a0_taylor": "-alpha/4*dtheta^2-beta*dphi^2+alpha/48*dtheta^4+beta/4*dtheta^2*dphi^2+beta/3*dphi^4+O(||d||^6)",
+    "alpha": 9,
+    "beta": 6,
+    "null_direction_resolution": "negative definite a0 Hessian on all nonzero feasible directions",
+    "independent_check": {
+      "digits": 80,
+      "step": "1e-12",
+      "method": "real centered finite differences of independent dense tensor-matrix payoffs",
+      "analytic_extension_for_derivatives_only": true,
+      "coefficients": [
+        {
+          "order": 0,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "-4.499999999999999999999999625",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-11.999999999999999999999996"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 0.0
+        },
+        {
+          "order": 1,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "4.87499999999999999999999918750013670653e-24",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-71.999999999999999999999832"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 4.875e-24
+        },
+        {
+          "order": 2,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "-1.312500304163891726001639995754857924118e-48",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "4.319999999999999999999991360000003292956e-22"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 4.32e-22
+        },
+        {
+          "order": 3,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "2.02410200510026045907492621784384364948e-55",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "9.599999999999999999999916799999982495057e-23"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 9.6e-23
+        }
+      ]
+    }
+  },
+  "K4_B": {
+    "coefficients": [
+      {
+        "order": 0,
+        "gradient": [
+          "0",
+          "9/4"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          2.25
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      },
+      {
+        "order": 1,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "-3/2",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            -1.5,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "-3/2",
+          "0"
+        ]
+      },
+      {
+        "order": 2,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      },
+      {
+        "order": 3,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      }
+    ],
+    "feasible_cone": "dphi<=0",
+    "radius": 0.1,
+    "eigendirections": "coordinate axes; repeated zero eigenvalues allow any basis",
+    "a0_taylor": "9/4*dphi - 9/8*dtheta^2*dphi - 3/8*dphi^3 + O(||d||^5)",
+    "alpha": null,
+    "beta": null,
+    "null_direction_resolution": "on dphi=0: a0 identically zero; a1=-3/4*sin(dtheta)^2=-3/4*dtheta^2+1/4*dtheta^4+O(dtheta^6)",
+    "independent_check": {
+      "digits": 80,
+      "step": "1e-12",
+      "method": "real centered finite differences of independent dense tensor-matrix payoffs",
+      "analytic_extension_for_derivatives_only": true,
+      "coefficients": [
+        {
+          "order": 0,
+          "gradient": [
+            "4.216879177292209289739429620508007603084e-69",
+            "2.249999999999999999999999625"
+          ],
+          "hessian": [
+            [
+              "-8.433758354584418579478859241016015206168e-57",
+              "2.108439588646104644869714810254003801542e-57"
+            ],
+            [
+              "2.108439588646104644869714810254003801542e-57",
+              "-8.433758354584418579478859241016015206168e-57"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 8.433758354584418e-57
+        },
+        {
+          "order": 1,
+          "gradient": [
+            "1.265063753187662786921828886152402280925e-68",
+            "-7.499999999999999999999998125e-25"
+          ],
+          "hessian": [
+            [
+              "-1.4999999999999999999999995",
+              "-1.265063753187662786921828886152402280925e-56"
+            ],
+            [
+              "-1.265063753187662786921828886152402280925e-56",
+              "5.060255012750651147687315544609609123701e-56"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 7.5e-25
+        },
+        {
+          "order": 2,
+          "gradient": [
+            "-5.249999999999999999999997375e-24",
+            "-9.374999999999999999483167007775494086299e-49"
+          ],
+          "hessian": [
+            [
+              "1.51807650382519534430619466338288273711e-55",
+              "2.53012750637532557384365777230480456185e-56"
+            ],
+            [
+              "2.53012750637532557384365777230480456185e-56",
+              "3.149999999999999999999993699999993861934e-23"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 3.15e-23
+        },
+        {
+          "order": 3,
+          "gradient": [
+            "2.53012750637532557384365777230480456185e-68",
+            "-2.951815424104546502817600734355605322159e-68"
+          ],
+          "hessian": [
+            [
+              "-1.01205100255013022953746310892192182474e-55",
+              "-1.686751670916883715895771848203203041234e-56"
+            ],
+            [
+              "-1.686751670916883715895771848203203041234e-56",
+              "5.999999999999999999999948000000035445082e-24"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 6e-24
+        }
+      ]
+    }
+  },
+  "K5_A": {
+    "coefficients": [
+      {
+        "order": 0,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "-15*sqrt(10*sqrt(5) + 30)/16 - 5*sqrt(5)/8 + 5*sqrt(2*sqrt(5) + 6)/16 + 17/8",
+            "0"
+          ],
+          [
+            "0",
+            "-15*sqrt(10*sqrt(5) + 30)/4 + 3/2 + 5*sqrt(2*sqrt(5) + 6)/4 + 5*sqrt(5)/2"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            -5.045084971874737,
+            0.0
+          ],
+          [
+            0.0,
+            -16.0
+          ]
+        ],
+        "eigenvalues": [
+          "-15*sqrt(10*sqrt(5) + 30)/16 - 5*sqrt(5)/8 + 5*sqrt(2*sqrt(5) + 6)/16 + 17/8",
+          "-15*sqrt(10*sqrt(5) + 30)/4 + 3/2 + 5*sqrt(2*sqrt(5) + 6)/4 + 5*sqrt(5)/2"
+        ]
+      },
+      {
+        "order": 1,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "-12*sqrt(10*sqrt(5) + 30) - 68 + 12*sqrt(5)"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -128.0
+          ]
+        ],
+        "eigenvalues": [
+          "0",
+          "-12*sqrt(10*sqrt(5) + 30) - 68 + 12*sqrt(5)"
+        ]
+      },
+      {
+        "order": 2,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      },
+      {
+        "order": 3,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      },
+      {
+        "order": 4,
+        "gradient": [
+          "0",
+          "0"
+        ],
+        "hessian": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "gradient_float": [
+          0.0,
+          0.0
+        ],
+        "hessian_float": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "eigenvalues": [
+          "0"
+        ]
+      }
+    ],
+    "feasible_cone": "dtheta>=0",
+    "radius": 0.1,
+    "eigendirections": "coordinate axes; repeated zero eigenvalues allow any basis",
+    "a0_taylor": "-alpha/4*dtheta^2-beta*dphi^2+alpha/48*dtheta^4+beta/4*dtheta^2*dphi^2+beta/3*dphi^4+O(||d||^6)",
+    "alpha": 10.090169943749475,
+    "beta": 8,
+    "null_direction_resolution": "negative definite a0 Hessian on all nonzero feasible directions",
+    "independent_check": {
+      "digits": 80,
+      "step": "1e-12",
+      "method": "real centered finite differences of independent dense tensor-matrix payoffs",
+      "analytic_extension_for_derivatives_only": true,
+      "coefficients": [
+        {
+          "order": 0,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "-5.045084971874737120511466665490347638073",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-15.99999999999999999999999466666666666667"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 0.0
+        },
+        {
+          "order": 1,
+          "gradient": [
+            "0.0",
+            "0.0"
+          ],
+          "hessian": [
+            [
+              "6.751644452187053104869492920779444964722e-24",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-127.9999999999999999999997013333333333333"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 6.751644452187053e-24
+        },
+        {
+          "order": 2,
+          "gradient": [
+            "0.0",
+            "-2.02410200510026045907492621784384364948e-67"
+          ],
+          "hessian": [
+            [
+              "-2.824181151678471522322272661020908576257e-48",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "1.151999999999999999999997696000000675712e-21"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 1.152e-21
+        },
+        {
+          "order": 3,
+          "gradient": [
+            "0.0",
+            "4.048204010200520918149852435687687298961e-67"
+          ],
+          "hessian": [
+            [
+              "-1.07952106938680557817329398285004994639e-54",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "5.119999999999999999999955626666663178103e-22"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 5.12e-22
+        },
+        {
+          "order": 4,
+          "gradient": [
+            "0.0",
+            "-2.02410200510026045907492621784384364948e-67"
+          ],
+          "hessian": [
+            [
+              "2.698802673467013945433234957125124865974e-55",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "-1.279999999956691945233899718116028179171e-45"
+            ]
+          ],
+          "maximum_error_to_symbolic_float": 1.279999999956692e-45
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "K2_Q": {
+    "a0_cartesian": "-3*s**2 - 2*x**2",
+    "exact_checks": {
+      "a0_identity_remainder": "0"
+    },
+    "status": "proven_ESS_restricted_EWL",
+    "scope": "pointwise rare-mutant ESS for every fixed distinct pure mutant; restricted family only",
+    "method": "exact polynomial identities and sign/zero-set argument over positive unit octant"
+  },
+  "K4_Q": {
+    "a0_cartesian": "-9*s**2 - 6*x**2",
+    "exact_checks": {
+      "a0_identity_remainder": "0"
+    },
+    "status": "proven_ESS_restricted_EWL",
+    "scope": "pointwise rare-mutant ESS for every fixed distinct pure mutant; restricted family only",
+    "method": "exact polynomial identities and sign/zero-set argument over positive unit octant"
+  },
+  "K4_B": {
+    "a0_cartesian": "-9*s*x/2",
+    "exact_checks": {
+      "a0_identity_remainder": "0",
+      "a1_x0_remainder": "0",
+      "a1_s0_remainder": "0"
+    },
+    "status": "proven_ESS_restricted_EWL",
+    "scope": "pointwise rare-mutant ESS for every fixed distinct pure mutant; restricted family only",
+    "method": "exact polynomial identities and sign/zero-set argument over positive unit octant"
+  },
+  "K5_A": {
+    "a0_cartesian": "s**2*(-5*sqrt(5)/2 - 9/2) - 8*(x*sqrt(sqrt(5)/8 + 5/8) - y*(-1/4 + sqrt(5)/4))**2",
+    "exact_checks": {
+      "a0_identity_remainder": "0"
+    },
+    "status": "proven_ESS_restricted_EWL",
+    "scope": "pointwise rare-mutant ESS for every fixed distinct pure mutant; restricted family only",
+    "method": "exact polynomial identities and sign/zero-set argument over positive unit octant"
+  }
+}
