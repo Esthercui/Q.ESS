@@ -9,5 +9,16 @@ description = "Classical and quantum ESS research tools."
 requires-python = ">=3.9"
 dependencies = []
 
+[project.optional-dependencies]
+research = [
+    "ipykernel>=6.0",
+    "matplotlib>=3.8",
+    "nbclient>=0.10",
+    "nbformat>=5.10",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "scipy>=1.11",
+]
+
 [tool.setuptools.packages.find]
 where = ["src"]

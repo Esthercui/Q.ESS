@@ -141,6 +141,42 @@ Validation checks covered by tests:
 - The profile `(D,C,C,C,C)` returns `(20,9,9,9,9)` but fails the Nash audit
 - Every returned equilibrium passes a direct all-players/all-deviations audit
 
+## Step 5: Resident-Mutant Invasion Analysis
+
+Implemented outputs:
+
+- Infinite well-mixed population fitness under random `K`-player group formation
+- Exact composition payoffs `u_R(j;R,M)` and `u_M(j;R,M)` for `K=2,3,4,5`
+- Rare-mutant classification from the full degree-`K-1` invasion polynomial
+- Separate exactly-one-mutant fixed-group diagnostic
+- Canonicalization of the duplicated `theta=pi` boundary
+- Coarse, refined, and bounded continuous mutant searches
+- Position-resolved permutation audits
+- Complete pair-level CSV/JSON output and concise resident summaries
+- Reproducible invasion landscapes and an executed analysis notebook
+
+The population fitness equations are:
+
+```text
+Pi_X(epsilon) = sum_j C(K-1,j) epsilon^j (1-epsilon)^(K-1-j) u_X(j;R,M)
+DeltaPi(epsilon) = Pi_M(epsilon) - Pi_R(epsilon)
+```
+
+The ESS sign is determined by the first coefficient of `DeltaPi(epsilon)`
+whose magnitude exceeds `1e-8`, not by `DeltaPi` at one arbitrary frequency.
+Finite-grid survivors are reported only as candidates. See
+[`docs/step5_methods.md`](docs/step5_methods.md) for the audited model,
+equations, terminology, results, limitations, and paper-ready Methods text.
+
+Run the reproducible Step 5 analysis with:
+
+```bash
+python -m pip install -e '.[research]'
+python examples/step5_ess_analysis.py --workers 8 --continuous-workers 8
+python scripts/validate_step5_results.py
+python scripts/build_step5_notebook.py
+```
+
 ## Run Tests
 
 ```bash
