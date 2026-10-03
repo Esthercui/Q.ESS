@@ -116,7 +116,7 @@ def numerical_search():
     return rows
 
 
-def precision_checks():
+def precision_checks(optimizers, summaries):
     rows=[];derivative_checks={}
     with mp.workdps(80):
         for name in RESIDENTS:
@@ -126,6 +126,16 @@ def precision_checks():
                 ('near_theta_1e-8',rt+mp.mpf('1e-8'),rp),
                 ('near_theta_1e-20',rt+mp.mpf('1e-20'),rp),
                 ('near_phi_1e-20',rt,rp-mp.mpf('1e-20'))]
+            # Recompute the strongest observed double candidate and finest-grid candidate.
+            opt=max((r for r in optimizers if r['resident']==name and not r['is_self']),key=lambda r:r['delta_001'])
+            fine=next(r for r in summaries if r['resident']==name)
+            for label, tt, pp in [('optimizer_best_double',opt['theta'],opt['phi']),('finest_grid_best',fine['mutant_theta'],fine['mutant_phi'])]:
+                t=mp.mpf(str(tt));p=mp.mpf(str(pp))
+                if tt==0.:t=mp.mpf(0)
+                if tt==math.pi:t=mp.pi
+                if pp==math.pi/2:p=mp.pi/2
+                if pp==RESIDENTS[name][2]:p=rp
+                probes.append((label,t,p))
             if name=='K4_B':probes += [('tie_theta0',mp.mpf(0),mp.pi/7),('tie_phi_pi2',mp.pi/3,mp.pi/2)]
             for label,t,p in probes:
                 high=high_precision_coefficients(name,t,p)
@@ -197,7 +207,7 @@ def run(out):
         alpha=(3 if name=='K2_Q' else 9 if name=='K4_Q' else (9+5*math.sqrt(5))/2) if name!='K4_B' else None,
         beta=(2 if name=='K2_Q' else 6 if name=='K4_Q' else 8) if name!='K4_B' else None,
         null_direction_resolution='on dphi=0: a0 identically zero; a1=-3/4*sin(dtheta)^2=-3/4*dtheta^2+1/4*dtheta^4+O(dtheta^6)' if name=='K4_B' else 'negative definite a0 Hessian on all nonzero feasible directions') for name in RESIDENTS}
-    precision,checks=precision_checks();write_csv(out/'precision_validation.csv',precision)
+    precision,checks=precision_checks(optimizers,summary);write_csv(out/'precision_validation.csv',precision)
     for name in local:local[name]['independent_check']=checks[name]
     dump(out/'local_derivative_analysis.json',local)
     dump(out/'neutral_sets.json',dict(
