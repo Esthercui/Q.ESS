@@ -28,6 +28,14 @@ class ResolutionTests(unittest.TestCase):
         a0=mr-rr; a1=(mm-rm)-(mr-rr)
         self.assertEqual(S.expand(a0-(mr-rr)),0)
         self.assertEqual(S.expand(a1.subs(mr,rr)-(mm-rm)),0)
+        game=KPlayerEWLGame(2,gamma=math.pi/2)
+        resident=EWLStrategy(.45,.61);mutant=EWLStrategy(.82,.94)
+        result=analyze_resident_mutant(game,resident,mutant,.01).position_results[0]
+        rr_=game.expected_payoffs([resident,resident])[0]
+        mr_=game.expected_payoffs([mutant,resident])[0]
+        rm_=game.expected_payoffs([resident,mutant])[0]
+        mm_=game.expected_payoffs([mutant,mutant])[0]
+        np.testing.assert_allclose(result.power_coefficients,[mr_-rr_,mm_-rm_-(mr_-rr_)],atol=1e-14,rtol=0)
         # The actual implementation must implement b1-b0 (not b1 off the tie).
         self.assertEqual(bernstein_to_power_coefficients([2.,5.]),(2.,3.))
         for mr_,rr_,rm_,mm_ in [(2,2,4,3),(5,3,2,1)]:

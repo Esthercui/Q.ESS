@@ -51,6 +51,23 @@ class Step6ArtifactTests(unittest.TestCase):
             self.assertNotEqual(r['high_precision_leading_order'],'')
             self.assertLess(float(r['high_precision_leading_value']),0)
 
+    def test_prior_grid_matches_saved_step5_polynomials(self):
+        read=script('validate_step6_results').read_csv
+        original=read(ROOT/'results/step5/resident_mutant_pair_results.csv.gz')
+        current=read(RESULTS/'mutant_coefficients.csv.gz')
+        def key(row):
+            return (int(row['k']),)+tuple(round(float(row[k]),13) for k in ['resident_theta','resident_phi','mutant_theta','mutant_phi'])
+        old={key(r):r for r in original if r['search_stage']=='fine' and r['mutant_position']=='0'}
+        checked=0
+        for row in current:
+            if row['stage']!='21x11':continue
+            self.assertIn(key(row),old)
+            previous=old[key(row)]
+            self.assertEqual(row['numerical_classification'],previous['rare_mutant_classification'])
+            np.testing.assert_allclose(json.loads(row['power_coefficients']),json.loads(previous['power_coefficients']),atol=2e-12,rtol=0)
+            checked+=1
+        self.assertEqual(checked,880)
+
     def test_grid_maxima_converge_to_self_without_becoming_positive(self):
         rows=script('validate_step6_results').read_csv(RESULTS/'grid_convergence.csv')
         for name in ['K2_Q','K4_Q','K4_B','K5_A']:

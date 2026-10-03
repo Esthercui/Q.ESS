@@ -201,7 +201,9 @@ and phi displacements down to `1e-20`, tie-edge witnesses, the finest-grid best
 mutant, and the strongest observed double-precision optimizer candidate.
 `1e-60` is only a high-precision diagnostic threshold. Exact boundaries are
 constructed with mp.pi, rather than converting a binary64 approximation of pi.
-Probes that collapse to self in ordinary coordinates are explicitly flagged.
+Literal ordinary-coordinate collapse and the inherited Step 5 angle-equivalence
+tolerance are flagged separately. The exact certificate still covers arbitrarily
+close, mathematically distinct mutants.
 The exact identities, not numerical tiny coefficients, establish equality.
 
 There is no strongest distinct mutant in the continuous domain under the

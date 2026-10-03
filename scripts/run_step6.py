@@ -147,7 +147,8 @@ def precision_checks(optimizers, summaries):
                     high_precision_noise_threshold='1e-60 (diagnostic, not exact equality)',high_precision_leading_order=first,
                     high_precision_leading_value=mp.nstr(high['a'][first],75) if first is not None else '',
                     probability_error=mp.nstr(high['probability_error'],12),
-                    ordinary_coordinates_collapse_to_self=is_self(name,[float(t),float(p)])))
+                    ordinary_coordinates_collapse_to_self=(float(t)==RESIDENTS[name][1] and float(p)==RESIDENTS[name][2]),
+                    step5_equivalence_tolerance_flags_self=is_self(name,[float(t),float(p)])))
             # Independent real centered finite differences of dense MP tensor payoffs.
             h=mp.mpf('1e-12');cache={}
             def at(i,j):
