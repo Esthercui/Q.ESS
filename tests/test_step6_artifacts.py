@@ -30,7 +30,7 @@ class Step6ArtifactTests(unittest.TestCase):
         self.assertEqual(saved,symbolic_certificate())
 
     def test_global_seed_reproduction_and_metadata(self):
-        rows=list(csv.DictReader(open(RESULTS/'coefficient_optimizer_runs.csv')))
+        rows=script('validate_step6_results').read_csv(RESULTS/'coefficient_optimizer_runs.csv')
         global_rows=[r for r in rows if r['method']=='differential_evolution']
         self.assertEqual(len(global_rows),52)
         self.assertTrue(all(r['success']=='True' for r in global_rows))
@@ -46,13 +46,13 @@ class Step6ArtifactTests(unittest.TestCase):
     def test_no_distinct_neutral_in_exact_result(self):
         sets=json.loads((RESULTS/'neutral_sets.json').read_text())
         self.assertTrue(all(v['distinct_neutral_set']=='empty' for v in sets.values()))
-        rows=list(csv.DictReader(open(RESULTS/'precision_validation.csv')))
+        rows=script('validate_step6_results').read_csv(RESULTS/'precision_validation.csv')
         for r in rows:
             self.assertNotEqual(r['high_precision_leading_order'],'')
             self.assertLess(float(r['high_precision_leading_value']),0)
 
     def test_grid_maxima_converge_to_self_without_becoming_positive(self):
-        rows=list(csv.DictReader(open(RESULTS/'grid_convergence.csv')))
+        rows=script('validate_step6_results').read_csv(RESULTS/'grid_convergence.csv')
         for name in ['K2_Q','K4_Q','K4_B','K5_A']:
             v=[r for r in rows if r['resident']==name]
             ds=[float(r['maximum_delta_001']) for r in v]

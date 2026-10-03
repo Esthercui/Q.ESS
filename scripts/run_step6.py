@@ -235,7 +235,8 @@ def run(out):
         certification='exact symbolic identities and analytic sign proof; optimizers/grids are cross-checks, not the proof',
         future_steps_executed=[],source_sha256={str(p.relative_to(Path.cwd()) if p.is_absolute() else p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),Path('src/quantum_ess/ewl_resolution.py'),Path('pyproject.toml')]})
     dump(out/'run_metadata.json',metadata)
-    dump(out/'data_manifest.json',{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in out.iterdir() if p.is_file() and p.name!='data_manifest.json'})
+    files=['mutant_coefficients.csv.gz','grid_convergence.csv','resident_summary.csv','coefficient_optimizer_runs.csv','certification_summary.json','symbolic_coefficients.json','precision_validation.csv','local_derivative_analysis.json','neutral_sets.json','run_metadata.json']
+    dump(out/'data_manifest.json',{name:hashlib.sha256((out/name).read_bytes()).hexdigest() for name in files})
     print(json.dumps({'runtime_seconds':metadata['runtime_seconds'],'mutant_rows':len(raw),'optimizer_runs':len(optimizers)},indent=2))
 
 
